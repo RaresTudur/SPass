@@ -1,3 +1,12 @@
+### Conturi deja existente
+
+- **Admin**
+    - Email: admin@gmail.com
+    - Parolă: adminpass
+- **Student**
+    - Email: rares@gmail.com
+    - Parolă: parola
+
 ### Actiuni/Interogari
 
 1. **Creare client**
