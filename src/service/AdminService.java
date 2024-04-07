@@ -1,14 +1,11 @@
 package service;
 
-import DAO.UniversityDAO;
 import model.Admin;
 import model.Student;
-import model.User;
 import utils.Constants;
 
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 public class AdminService
 {
@@ -16,14 +13,14 @@ public class AdminService
     private PassService passService;
     private PayService payService;
     private UserService userService;
-    private UniversityStorage universityStorage;
+    private UniversityService universityService;
     public AdminService()
     {
         this.authentificationService = new AuthentificationService();
         this.passService = new PassService();
         this.payService = new PayService();
         this.userService = new UserService();
-        this.universityStorage = new UniversityStorage();
+        this.universityService = new UniversityService();
     }
     public void addStudent(Scanner in)
     {
@@ -81,10 +78,10 @@ public class AdminService
     }
     public void addUniversity(Scanner in)
     {
-        universityStorage.create(in);
+        universityService.create(in);
     }
     public void viewallUniversity()
     {
-        universityStorage.viewAllUniversities();;
+        universityService.viewAllUniversities();;
     }
 }

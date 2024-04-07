@@ -9,10 +9,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class UniversityStorage
+public class UniversityService
 {
     private UniversityDAOService dao;
-    public UniversityStorage()
+    public UniversityService()
     {
         this.dao = new UniversityDAOService();
     }

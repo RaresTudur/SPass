@@ -36,8 +36,9 @@
 ### Obiecte si Clase din Proiect
 
 1. **Clase de Model**
-   - `Student`: Reprezinta un student in sistem.
-   - `Admin`: Reprezinta un administrator in sistem.
+   - `User` reprezinta un user in sistem
+     - `Student`: Subclasa a `User` pentru studenti.
+     - `Admin`: Subclasa a `User` pentru administratorii sistemului.
    - `Universitate`: Reprezinta o universitate in sistem.
    - `Facultate`: Reprezinta o facultate in cadrul unei universitati.
    - `Abonament`: Clasa abstracta pentru diverse tipuri de abonamente.
@@ -50,16 +51,21 @@
 
 2. **Pachete si Servicii**
    - `DAO`: Pachetul care contine clasele de acces la date.
+      - `AbonamentSTBDAO`: Clasa care gestioneaza operatiile CRUD pentru abonamentele STB
+      - `AbonamentMetrorexDAO`: Clasa care gestioneaza operatiile CRUD pentru abonamentele Metrorex
       - `UserDAO`: Clasa care gestioneaza operatiile CRUD pentru utilizatori.
       - `UniversityDAO`: Clasa care gestioneaza operatiile CRUD pentru universitati.
       - `FacultyDAO`: Clasa care gestioneaza operatiile CRUD pentru facultati.
       - `CardDAO`: Clasa care gestioneaza operatiile CRUD pentru carduri.
+      - `PlataDAO`: Clasa care gestioneaza operatiile CRUD pentru plati.
+
    - `Service`: Pachetul care contine clasele de servicii.
+      - `AdminService`: Clasa pentru gestionarea operatiunilor administratorilor. 
       - `AuthenticationService`: Clasa pentru autentificarea utilizatorilor.
-      - `DatabaseService`: Clasa care gestioneaza interactiunea cu baza de date.
+      - `CardService`: Clasa pentru gestionarea cardurilor utilizatorilor.
       - `PassService`: Clasa pentru gestionarea abonamentelor.
-      - `PaymentService`: Clasa pentru efectuarea platilor.
+      - `PayService`: Clasa pentru efectuarea platilor.
       - `UserService`: Clasa pentru operatiile legate de utilizatori.
+      - `UniversityService`: Clasa pentru operatiile legate de universitati si facultati
       - `Menu`: Pachetul care contine clasele pentru meniul aplicatiei.
-         - `AdminMenu`: Clasa pentru meniul administratorului.
-         - `StudentMenu`: Clasa pentru meniul studentului.
+         - `UserMenu`: Clasa pentru meniul administratorului si a studentului
