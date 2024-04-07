@@ -32,3 +32,34 @@
 
 11. **Vizualizarea unui student sau admin**
     - Adminul poate accesa detaliile complete ale unui student sau admin specific, pentru a verifica informațiile și istoricul contului.
+
+### Obiecte si Clase din Proiect
+
+1. **Clase de Model**
+   - `Student`: Reprezinta un student in sistem.
+   - `Admin`: Reprezinta un administrator in sistem.
+   - `Universitate`: Reprezinta o universitate in sistem.
+   - `Facultate`: Reprezinta o facultate in cadrul unei universitati.
+   - `Abonament`: Clasa abstracta pentru diverse tipuri de abonamente.
+      - `AbonamentSTB`: Subclasa a `Abonament` pentru abonamentele STB.
+      - `AbonamentMetrorex`: Subclasa a `Abonament` pentru abonamentele Metrorex.
+   - `Card`: Reprezinta un card de plata asociat unui utilizator.
+      - `DebitCard`: Subclasa a `Card` pentru cardurile de debit.
+      - `CreditCard`: Subclasa a `Card` pentru cardurile de credit.
+   - `Plata`: Reprezinta o tranzactie de plata inregistrata in sistem.
+
+2. **Pachete si Servicii**
+   - `DAO`: Pachetul care contine clasele de acces la date.
+      - `UserDAO`: Clasa care gestioneaza operatiile CRUD pentru utilizatori.
+      - `UniversityDAO`: Clasa care gestioneaza operatiile CRUD pentru universitati.
+      - `FacultyDAO`: Clasa care gestioneaza operatiile CRUD pentru facultati.
+      - `CardDAO`: Clasa care gestioneaza operatiile CRUD pentru carduri.
+   - `Service`: Pachetul care contine clasele de servicii.
+      - `AuthenticationService`: Clasa pentru autentificarea utilizatorilor.
+      - `DatabaseService`: Clasa care gestioneaza interactiunea cu baza de date.
+      - `PassService`: Clasa pentru gestionarea abonamentelor.
+      - `PaymentService`: Clasa pentru efectuarea platilor.
+      - `UserService`: Clasa pentru operatiile legate de utilizatori.
+      - `Menu`: Pachetul care contine clasele pentru meniul aplicatiei.
+         - `AdminMenu`: Clasa pentru meniul administratorului.
+         - `StudentMenu`: Clasa pentru meniul studentului.
