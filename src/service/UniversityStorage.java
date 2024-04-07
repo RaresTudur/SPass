@@ -3,7 +3,9 @@ package service;
 import daoservice.UniversityDAOService;
 import model.Universitate;
 import model.Facultate;
+import utils.UniversitiesCompare;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -53,6 +55,7 @@ public class UniversityStorage
     public void viewAllUniversities()
     {
         List<Universitate> universities = getAllUniversities();
+        Collections.sort(universities, new UniversitiesCompare());
         for(Universitate university : universities)
         {
             System.out.println(university);
