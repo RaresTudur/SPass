@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 import model.Admin;
 import model.Student;

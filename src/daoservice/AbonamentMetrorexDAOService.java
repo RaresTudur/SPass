@@ -1,6 +1,6 @@
 package daoservice;
 
-import DAO.AbonamentMetrorexDAO;
+import dao.AbonamentMetrorexDAO;
 import model.Abonament_Metrorex;
 
 public class AbonamentMetrorexDAOService

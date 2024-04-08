@@ -1,6 +1,6 @@
 package daoservice;
 
-import DAO.FacultyDAO;
+import dao.FacultyDAO;
 import model.Facultate;
 
 public class FacultyDAOService

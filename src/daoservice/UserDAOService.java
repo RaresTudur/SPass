@@ -1,11 +1,9 @@
 package daoservice;
 
-import model.Admin;
 import model.User;
-import DAO.*;
+import dao.*;
 
 import java.util.HashSet;
-import java.util.Set;
 
 public class UserDAOService
 {

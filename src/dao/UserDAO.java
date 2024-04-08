@@ -1,11 +1,7 @@
-package DAO;
-import model.Admin;
+package dao;
 import model.User;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class UserDAO
 {

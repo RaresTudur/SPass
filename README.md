@@ -59,7 +59,7 @@
    - `Plata`: Reprezinta o tranzactie de plata inregistrata in sistem.
 
 2. **Pachete si Servicii**
-   - `DAO`: Pachetul care contine clasele de acces la date.
+   - `dao`: Pachetul care contine clasele de acces la date.
       - `AbonamentSTBDAO`: Clasa care gestioneaza operatiile CRUD pentru abonamentele STB
       - `AbonamentMetrorexDAO`: Clasa care gestioneaza operatiile CRUD pentru abonamentele Metrorex
       - `UserDAO`: Clasa care gestioneaza operatiile CRUD pentru utilizatori.
@@ -76,5 +76,5 @@
       - `PayService`: Clasa pentru efectuarea platilor.
       - `UserService`: Clasa pentru operatiile legate de utilizatori.
       - `UniversityService`: Clasa pentru operatiile legate de universitati si facultati
-      - `Menu`: Pachetul care contine clasele pentru meniul aplicatiei.
+      - `menu`: Pachetul care contine clasele pentru meniul aplicatiei.
          - `UserMenu`: Clasa pentru meniul administratorului si a studentului

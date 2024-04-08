@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-import Menu.UserMenu;
+import menu.UserMenu;
 import model.User;
 import service.*;
 import utils.InitializeDataService;

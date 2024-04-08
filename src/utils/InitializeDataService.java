@@ -1,7 +1,5 @@
 package utils;
 
-import DAO.AbonamentMetrorexDAO;
-import DAO.FacultyDAO;
 import daoservice.AbonamentMetrorexDAOService;
 import daoservice.FacultyDAOService;
 import daoservice.UniversityDAOService;

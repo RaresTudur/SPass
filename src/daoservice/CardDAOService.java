@@ -1,9 +1,7 @@
 package daoservice;
 
-import DAO.CardDAO;
+import dao.CardDAO;
 import model.Card;
-import model.CreditCard;
-import model.DebitCard;
 
 public class CardDAOService
 {

@@ -1,6 +1,6 @@
 package daoservice;
 
-import DAO.PlataDAO;
+import dao.PlataDAO;
 import model.Plata;
 
 import java.time.LocalDate;

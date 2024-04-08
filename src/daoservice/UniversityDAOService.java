@@ -5,7 +5,7 @@ import model.Universitate;
 
 import java.util.List;
 
-import DAO.*;
+import dao.*;
 public class UniversityDAOService
 {
     private UniversityDAO universityDAO;

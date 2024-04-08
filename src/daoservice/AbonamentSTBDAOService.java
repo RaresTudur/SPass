@@ -1,6 +1,6 @@
 package daoservice;
 
-import DAO.AbonamentSTBDAO;
+import dao.AbonamentSTBDAO;
 import model.Abonament_STB;
 
 public class AbonamentSTBDAOService
