@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class Card
 {
+    private int cardID;
     private int user_id;
     private long cardNumber;
     private LocalDate dataExpirare;
@@ -16,6 +17,20 @@ public class Card
         this.dataExpirare = dataExpirare;
         this.detinator = nume;
         this.CVV = CVV;
+    }
+
+    public Card()
+    {
+
+    }
+
+    public Card(Card card) {
+        this.user_id = card.user_id;
+        this.cardID = card.cardID;
+        this.cardNumber = card.cardNumber;
+        this.dataExpirare = card.dataExpirare;
+        this.detinator = card.detinator;
+        this.CVV = card.CVV;
     }
 
     public int getUser_id()
@@ -56,6 +71,16 @@ public class Card
     public int getCVV()
     {
         return CVV;
+    }
+
+    public int getCardID()
+    {
+        return cardID;
+    }
+
+    public void setCardID(int cardID)
+    {
+        this.cardID = cardID;
     }
 
     public void setCVV(int CVV)

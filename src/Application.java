@@ -1,3 +1,5 @@
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import menu.UserMenu;
@@ -8,7 +10,7 @@ import utils.InitializeDataService;
 public class Application
 {
     private static User user_curent;
-    public static void main(String[] args)
+    public static void main(String[] args) throws SQLException, NoSuchAlgorithmException
     {
         Scanner in = new Scanner(System.in);
         UserService dtb = new UserService();
@@ -43,6 +45,8 @@ public class Application
                 {
                     authentificationService.register(in);
                 }
+                default:
+                    return;
             }
         }
     }
@@ -51,6 +55,7 @@ public class Application
         System.out.println("Available commands: ");
         System.out.println("1.Login");
         System.out.println("2.Register");
+        System.out.println("3.Exit");
     }
 
 }

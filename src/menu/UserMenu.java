@@ -6,21 +6,23 @@ import model.User;
 import service.*;
 import utils.ErrorCodes;
 
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserMenu
 {
-    public static void main(AuthentificationService authentificationService, User current_user, Scanner in, PassService service, PayService payService, UserService userService)
+    public static void main(AuthentificationService authentificationService, User current_user, Scanner in, PassService service, PayService payService, UserService userService) throws SQLException, NoSuchAlgorithmException
     {
         switch (current_user)
         {
-            case Admin admin -> adminMenu(authentificationService,admin,in);
+            case Admin admin -> adminMenu(authentificationService, admin,in);
             case Student student -> studentMenu(authentificationService, student, in, service, payService);
             default -> throw new IllegalStateException("Unexpected role: " + current_user);
         }
     }
 
-    public static void adminMenu(AuthentificationService authentificationService,Admin admin,Scanner in)
+    public static void adminMenu(AuthentificationService authentificationService,Admin admin,Scanner in) throws SQLException, NoSuchAlgorithmException
     {
         AdminService adminService = new AdminService();
         while (authentificationService.isLoggedIn())
@@ -32,9 +34,11 @@ public class UserMenu
             System.out.println("4. Add New Admin");
             System.out.println("5. View All Admins");
             System.out.println("6. View Admin Details");
-            System.out.println("7. Add New University");
-            System.out.println("8. View all universities");
-            System.out.println("9. Logout");
+            System.out.println("7. Delete user");
+            System.out.println("8. Add New University");
+            System.out.println("9. Delete university");
+            System.out.println("10. View all universities");
+            System.out.println("11. Logout");
             System.out.print("Enter your choice: ");
 
             int choice = in.nextInt();
@@ -60,12 +64,18 @@ public class UserMenu
                     adminService.viewAdminDetails(admin.getAdminRole(), in);
                     break;
                 case 7:
-                    adminService.addUniversity(in);
+                    adminService.deleteUser(admin.getAdminRole(),in);
                     break;
                 case 8:
-                    adminService.viewallUniversity();
+                    adminService.addUniversity(in);
                     break;
                 case 9:
+                    adminService.deleteUniversity(in);
+                    break;
+                case 10:
+                    adminService.viewallUniversity();
+                    break;
+                case 11:
                     System.out.println("Logging out...");
                     authentificationService.logout();
                     break;
@@ -76,8 +86,9 @@ public class UserMenu
     }
 
 
-    public static void studentMenu(AuthentificationService authentificationService, Student current_user, Scanner in, PassService passService, PayService payService)
+    public static void studentMenu(AuthentificationService authentificationService, Student current_user, Scanner in, PassService passService, PayService payService) throws SQLException
     {
+        UserService userService = new UserService();
         while (authentificationService.isLoggedIn())
         {
             System.out.println("Welcome, Student!");
@@ -86,12 +97,13 @@ public class UserMenu
             System.out.println("3. Pay Abonnement");
             System.out.println("4. Change Payment Option");
             System.out.println("5. Logout");
+            System.out.println("6. Delete Account");
             System.out.print("Enter your choice: ");
             int choice = in.nextInt();
             switch (choice)
             {
                 case 1:
-                    passService.viewAllPasses(current_user.getStudent_number());
+                    passService.viewAllPasses(current_user.getId());
                     break;
                 case 2:
                     int errorCode = payService.makePayment(current_user, in);
@@ -137,6 +149,11 @@ public class UserMenu
                     payService.changePaymentOption(current_user, in);
                     break;
                 case 5:
+                    authentificationService.logout();
+                    break;
+                case 6:
+                    userService.deleteUser(current_user.getEmail_address());
+                    System.out.println("Contul a fost sters");
                     authentificationService.logout();
                     break;
                 default:

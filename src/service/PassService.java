@@ -8,6 +8,7 @@ import model.Abonament_STB;
 import model.Student;
 import utils.Constants;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +18,18 @@ public class PassService
 {
     private AbonamentMetrorexDAOService abonamentMetrorexDAOService;
     private AbonamentSTBDAOService abonamentSTBDAOService;
-    public PassService()
+    public PassService() throws SQLException
     {
         this.abonamentSTBDAOService = new AbonamentSTBDAOService();
         this.abonamentMetrorexDAOService = new AbonamentMetrorexDAOService();
     }
-    private boolean checkpassSTB(Abonament_STB abonamentSTB)
+    private boolean checkpassSTB(Abonament_STB abonamentSTB) throws SQLException
     {
         if(abonamentSTB == null)
         {
             return false;
         }
-        Abonament check_pass = abonamentSTBDAOService.getAbonamentSTB(abonamentSTB.getStudent().getStudent_number());
+        Abonament check_pass = abonamentSTBDAOService.getAbonamentSTB(abonamentSTB.getStudentId());
         if(check_pass ==null)
         {
             return false;
@@ -39,13 +40,13 @@ public class PassService
         }
         return false;
     }
-    private boolean checkpassMetrorex(Abonament_Metrorex abonamentMetrorex)
+    private boolean checkpassMetrorex(Abonament_Metrorex abonamentMetrorex) throws SQLException
     {
         if(abonamentMetrorex == null)
         {
             return false;
         }
-        Abonament_Metrorex abonamentMetrorex1 = abonamentMetrorexDAOService.getAbonamentMetrorex(abonamentMetrorex.getStudent().getStudent_number());
+        Abonament_Metrorex abonamentMetrorex1 = abonamentMetrorexDAOService.getAbonamentMetrorex(abonamentMetrorex.getStudentId());
         if(abonamentMetrorex1 == null)
         {
             return false;
@@ -56,7 +57,7 @@ public class PassService
         }
         return false;
     }
-    private boolean checkPassExists(Abonament var_abonament)
+    private boolean checkPassExists(Abonament var_abonament) throws SQLException
     {
         boolean exists = false;
         switch(var_abonament)
@@ -67,9 +68,9 @@ public class PassService
         }
         return exists;
     }
-    public void createMetrorexPass(Student var_student, boolean typeOfPay)
+    public void createMetrorexPass(Student var_student, boolean typeOfPay) throws SQLException
     {
-        Abonament_Metrorex abonamentMetrorex = new Abonament_Metrorex(var_student,typeOfPay,var_student.getUniversitate(),var_student.getFacultate());
+        Abonament_Metrorex abonamentMetrorex = new Abonament_Metrorex(var_student.getId(),typeOfPay,var_student.getUniversitateID(),var_student.getFacultateID());
         if(checkPassExists(abonamentMetrorex))
         {
             System.out.println("Ai deja acest tip de abonament");
@@ -78,9 +79,9 @@ public class PassService
         abonamentMetrorexDAOService.addAbonament(abonamentMetrorex);
         System.out.println("Abonamenul a fost creat");
     }
-    public void createSTBPass(Student var_student, boolean typeOfPay)
+    public void createSTBPass(Student var_student, boolean typeOfPay) throws SQLException
     {
-        Abonament_STB abonamentSTB = new Abonament_STB(var_student,typeOfPay,var_student.getUniversitate(),var_student.getFacultate());
+        Abonament_STB abonamentSTB = new Abonament_STB(var_student.getId(),typeOfPay,var_student.getUniversitateID(),var_student.getFacultateID());
         if(checkPassExists(abonamentSTB))
         {
             System.out.println("Ai deja acest tip de abonament");
@@ -89,7 +90,7 @@ public class PassService
         abonamentSTBDAOService.addAbonament(abonamentSTB);
         System.out.println("Abonamenul a fost creat");
     }
-    public void createPass(Student var_student,String typeofPass, boolean typeofPay)
+    public void createPass(Student var_student,String typeofPass, boolean typeofPay) throws SQLException
     {
         switch (typeofPass)
         {
@@ -98,9 +99,9 @@ public class PassService
             default -> throw new IllegalStateException("Unexpected value" + typeofPass);
         }
     }
-    public Abonament_STB getPasstSTBbySID(int student_number)
+    public Abonament_STB getPasstSTBbySID(int studentID) throws SQLException
     {
-        Abonament_STB abonamentStb = abonamentSTBDAOService.getAbonamentSTB(student_number);
+        Abonament_STB abonamentStb = abonamentSTBDAOService.getAbonamentSTB(studentID);
         if(abonamentStb != null)
         {
             return abonamentStb;
@@ -108,9 +109,9 @@ public class PassService
         System.out.println("Nu ai un abonament de tip STB");
         return null;
     }
-    public Abonament_Metrorex getPassMetrorexbySID(int student_number)
+    public Abonament_Metrorex getPassMetrorexbySID(int studentID) throws SQLException
     {
-        Abonament_Metrorex abonamentMetrorex = abonamentMetrorexDAOService.getAbonamentMetrorex(student_number);
+        Abonament_Metrorex abonamentMetrorex = abonamentMetrorexDAOService.getAbonamentMetrorex(studentID);
         if(abonamentMetrorex != null)
         {
             return abonamentMetrorex;
@@ -118,41 +119,41 @@ public class PassService
         System.out.println("Nu ai un abonament de tip Metrorex");
         return null;
     }
-    public Abonament getPass(int student_number, String typeofPass)
+    public Abonament getPass(int studentID, String typeofPass) throws SQLException
     {
         Abonament searched_pass;
         switch(typeofPass.toLowerCase())
         {
             case Constants.STB:
-                searched_pass = getPasstSTBbySID(student_number);
+                searched_pass = getPasstSTBbySID(studentID);
                 break;
             case Constants.METROREX:
-                searched_pass = getPassMetrorexbySID(student_number);
+                searched_pass = getPassMetrorexbySID(studentID);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + typeofPass);
         }
         return searched_pass;
     }
-    public List<Abonament> getAllPasses(int student_number)
+    public List<Abonament> getAllPasses(int studentID) throws SQLException
     {
         List<Abonament> passes = new ArrayList<>();
-        Abonament_STB abonamentStb = abonamentSTBDAOService.getAbonamentSTB(student_number);
+        Abonament_STB abonamentStb = abonamentSTBDAOService.getAbonamentSTB(studentID);
         if(abonamentStb != null)
         {
             passes.add(abonamentStb);
         }
-        Abonament_Metrorex abonamentMetrorex = abonamentMetrorexDAOService.getAbonamentMetrorex(student_number);
+        Abonament_Metrorex abonamentMetrorex = abonamentMetrorexDAOService.getAbonamentMetrorex(studentID);
         if(abonamentMetrorex != null)
         {
             passes.add(abonamentMetrorex);
         }
         return passes;
     }
-    public List<Abonament> getAllExpiredPasses(int student_number)
+    public List<Abonament> getAllExpiredPasses(int studentID) throws SQLException
     {
         List<Abonament> passes = new ArrayList<>();
-        Abonament_STB abonamentStb = abonamentSTBDAOService.getAbonamentSTB(student_number);
+        Abonament_STB abonamentStb = abonamentSTBDAOService.getAbonamentSTB(studentID);
         if(abonamentStb != null)
         {
             if(abonamentStb.isExpirat())
@@ -160,7 +161,7 @@ public class PassService
                 passes.add(abonamentStb);
             }
         }
-        Abonament_Metrorex abonamentMetrorex = abonamentMetrorexDAOService.getAbonamentMetrorex(student_number);
+        Abonament_Metrorex abonamentMetrorex = abonamentMetrorexDAOService.getAbonamentMetrorex(studentID);
         if(abonamentMetrorex != null)
         {
             if(abonamentMetrorex.isExpirat())
@@ -170,9 +171,9 @@ public class PassService
         }
         return passes;
     }
-    public void viewAllPasses(int student_number)
+    public void viewAllPasses(int studentID) throws SQLException
     {
-        List<Abonament> passes = getAllPasses(student_number);
+        List<Abonament> passes = getAllPasses(studentID);
         if(passes.isEmpty())
         {
             return;
@@ -182,38 +183,40 @@ public class PassService
             System.out.println(pass);
         }
     }
-    public void cancelSTBPass(int student_number)
+    public void cancelSTBPass(int studentID) throws SQLException
     {
-        Abonament_STB abonamentStb = getPasstSTBbySID(student_number);
+        Abonament_STB abonamentStb = getPasstSTBbySID(studentID);
         abonamentSTBDAOService.removeAbonament(abonamentStb);
         System.out.println("Abonamentul a fost anulat");
     }
-    public void cancelMetrorexPass(int student_number)
+    public void cancelMetrorexPass(int studentID) throws SQLException
     {
-        Abonament_Metrorex abonamentMetrorex = getPassMetrorexbySID(student_number);
+        Abonament_Metrorex abonamentMetrorex = getPassMetrorexbySID(studentID);
         abonamentMetrorexDAOService.removeAbonament(abonamentMetrorex);
         System.out.println("Abonamentul a fost anulat");
     }
-    public void cancelPass(int student_number, String typeofPass)
+    public void cancelPass(int studentID, String typeofPass) throws SQLException
     {
         switch(typeofPass.toLowerCase())
         {
-            case Constants.STB -> cancelSTBPass(student_number);
-            case Constants.METROREX -> cancelMetrorexPass(student_number);
+            case Constants.STB -> cancelSTBPass(studentID);
+            case Constants.METROREX -> cancelMetrorexPass(studentID);
             default -> throw new IllegalStateException("Unexpected value: " + typeofPass);
         }
     }
-    public void updateMetrorexPassDuration(Abonament_Metrorex abonamentMetrorex)
+    public void updateMetrorexPassDuration(Abonament_Metrorex abonamentMetrorex) throws SQLException
     {
         abonamentMetrorex.setData_inceput(LocalDate.now());
         abonamentMetrorex.setExpirat(false);
+        abonamentMetrorexDAOService.updateAbonament(abonamentMetrorex);
     }
-    public void updateSTBPassDuration(Abonament_STB abonamentSTB)
+    public void updateSTBPassDuration(Abonament_STB abonamentSTB) throws SQLException
     {
         abonamentSTB.setData_inceput(LocalDate.now());
         abonamentSTB.setExpirat(false);
+        abonamentSTBDAOService.updateAbonament(abonamentSTB);
     }
-    public void updatePass(Abonament abonament)
+    public void updatePass(Abonament abonament) throws SQLException
     {
         switch (abonament)
         {
@@ -250,9 +253,9 @@ public class PassService
         }
         return typeofPass;
     }
-    public void viewAllExpiredPasses(int student_number)
+    public void viewAllExpiredPasses(int studentID) throws SQLException
     {
-        List<Abonament> passes = getAllExpiredPasses(student_number);
+        List<Abonament> passes = getAllExpiredPasses(studentID);
         if(passes.isEmpty())
         {
             return;
@@ -262,14 +265,14 @@ public class PassService
             System.out.println(pass);
         }
     }
-    public Abonament getExpiredAbonament(int student_number,Scanner in)
+    public Abonament getExpiredAbonament(int studentID,Scanner in) throws SQLException
     {
-        List<Abonament> passes = getAllExpiredPasses(student_number);
+        List<Abonament> passes = getAllExpiredPasses(studentID);
         if(passes.isEmpty())
         {
             return null;
         }
-        viewAllExpiredPasses(student_number);
+        viewAllExpiredPasses(studentID);
         int choice = in.nextInt();
         Abonament abonament = passes.get(choice-1);
         if(abonament != null)
@@ -281,15 +284,15 @@ public class PassService
             return null;
         }
     }
-    public boolean checkExistingPassSTB(Student user)
+    public boolean checkExistingPassSTB(Student user) throws SQLException
     {
-        return(abonamentSTBDAOService.getAbonamentSTB(user.getId_student()) != null);
+        return(abonamentSTBDAOService.getAbonamentSTB(user.getId()) != null);
     }
-    public boolean checkExistingPassMetrorex(Student user)
+    public boolean checkExistingPassMetrorex(Student user) throws SQLException
     {
         return(abonamentMetrorexDAOService.getAbonamentMetrorex(user.getStudent_number()) != null);
     }
-    public boolean checkExistingPass(Student user, String typeofPass)
+    public boolean checkExistingPass(Student user, String typeofPass) throws SQLException
     {
         boolean existingPass = false;
         switch (typeofPass)

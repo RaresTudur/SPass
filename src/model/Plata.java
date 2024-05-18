@@ -24,6 +24,11 @@ public class Plata
         this.data_plata = LocalDate.now();
     }
 
+    public Plata()
+    {
+
+    }
+
 
     public int getId_Student()
     {
@@ -68,6 +73,26 @@ public class Plata
     public int getId_plata()
     {
         return id_plata;
+    }
+
+    public static int getNum_id()
+    {
+        return num_id;
+    }
+
+    public static void setNum_id(int num_id)
+    {
+        Plata.num_id = num_id;
+    }
+
+    public double getValue()
+    {
+        return value;
+    }
+
+    public void setValue(double value)
+    {
+        this.value = value;
     }
 
     public void setId_plata(int id_plata)

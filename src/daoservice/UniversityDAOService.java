@@ -3,6 +3,8 @@ package daoservice;
 import model.Facultate;
 import model.Universitate;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.*;
@@ -10,19 +12,19 @@ public class UniversityDAOService
 {
     private UniversityDAO universityDAO;
     private FacultyDAOService facultyDAOService;
-    public UniversityDAOService()
+    public UniversityDAOService() throws SQLException
     {
         this.universityDAO = UniversityDAO.getInstance();
         this.facultyDAOService = new FacultyDAOService();
     }
-    public void addUniversity(Universitate var_uni)
+    public void addUniversity(Universitate var_uni) throws SQLException
     {
         if(var_uni != null)
         {
             universityDAO.create(var_uni);
         }
     }
-    public void remove(String name_university)
+    public void remove(String name_university) throws SQLException
     {
         Universitate var_university = getUniversitybyName(name_university);
         if(var_university != null)
@@ -30,36 +32,13 @@ public class UniversityDAOService
             universityDAO.delete(var_university);
         }
     }
-    public void addFacultytoUniversity(Universitate var_uni, Facultate var_fac)
-    {
-        if(var_uni != null)
-        {
-            if(var_fac != null)
-            {
-                if(universityDAO.read(var_uni.getNume_Universitate()) == null)
-                {
-                    addUniversity(var_uni);
-                }
-                if(facultyDAOService.getFacultybyName(var_fac.getNume_facultate()) == null)
-                {
-                    facultyDAOService.addFaculty(var_fac);
-                }
-                var_uni.addFacultate(var_fac);
-            }
-        }
-    }
     public Universitate getUniversitybyName(String name)
     {
-        Universitate uni = universityDAO.read(name);
-        if(uni != null)
-        {
-            return uni;
-        }
-        return null;
+        return universityDAO.read(name);
     }
-    public Facultate getFacultyByName(String nume_facultate, String nume_univ)
+    public Facultate getFacultyByName(String nume_facultate, String nume_univ) throws SQLException
     {
-        List<Facultate> faculties = this.getUniversitybyName(nume_univ).getFacultati();
+        List<Facultate> faculties = this.getallFaculties(getUniversitybyName(nume_univ)) ;
         for(Facultate faculty : faculties)
         {
             if (faculty.getNume_facultate().equals(nume_facultate))
@@ -68,6 +47,19 @@ public class UniversityDAOService
             }
         }
         return null;
+    }
+    public List<Facultate> getallFaculties(Universitate universitate) throws SQLException
+    {
+        List<Facultate> lista_facultati = facultyDAOService.getallFaculties();
+        List<Facultate> facultatiUniversitate = new ArrayList<>();
+        for(Facultate fac : lista_facultati)
+        {
+            if(fac.getId_Universitate() == universitate.getId_Universitate())
+            {
+                facultatiUniversitate.add(fac);
+            }
+        }
+        return facultatiUniversitate;
     }
     public List<Universitate> getUniversities()
     {

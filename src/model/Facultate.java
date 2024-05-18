@@ -21,6 +21,11 @@ public class Facultate
         this.id_Universitate = id_U;
     }
 
+    public Facultate()
+    {
+
+    }
+
     public  int getId_facultate()
     {
         return this.id_facultate;

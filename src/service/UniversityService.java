@@ -1,10 +1,12 @@
 package service;
 
+import daoservice.FacultyDAOService;
 import daoservice.UniversityDAOService;
 import model.Universitate;
 import model.Facultate;
 import utils.UniversitiesCompare;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -12,11 +14,13 @@ import java.util.Scanner;
 public class UniversityService
 {
     private UniversityDAOService dao;
-    public UniversityService()
+    private FacultyDAOService facultyDAOService;
+    public UniversityService() throws SQLException
     {
         this.dao = new UniversityDAOService();
+        this.facultyDAOService = new FacultyDAOService();
     }
-    public void create(Scanner in)
+    public void create(Scanner in) throws SQLException
     {
         System.out.println("Name: ");
         String name = in.nextLine();
@@ -60,5 +64,13 @@ public class UniversityService
         {
             System.out.println(university);
         }
+    }
+    public void removeUniversity(String name) throws SQLException
+    {
+        dao.remove(name);
+    }
+    public void removeFaculty(String name) throws SQLException
+    {
+        facultyDAOService.removeFaculty(name);
     }
 }

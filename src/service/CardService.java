@@ -1,6 +1,8 @@
 package service;
 
+import dao.StudentDAO;
 import daoservice.CardDAOService;
+import daoservice.UserDAOService;
 import model.Card;
 import model.CreditCard;
 import model.DebitCard;
@@ -8,17 +10,22 @@ import model.Student;
 import utils.Constants;
 import utils.ErrorCodes;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+import static utils.Constants.LIMITCARD;
+
 public class CardService
 {
     private CardDAOService cardDAOService;
-    public CardService()
+    private UserDAOService userDAOService;
+    public CardService() throws SQLException
     {
         this.cardDAOService = new CardDAOService();
+        this.userDAOService = new UserDAOService();
     }
     private boolean addTranzactionDebit(DebitCard debitCard, double suma)
     {
@@ -28,7 +35,7 @@ public class CardService
     {
         return creditCard.addTranzaction(suma);
     }
-    public int addTranzaction(int user_id, double suma)
+    public int addTranzaction(int user_id, double suma) throws SQLException
     {
         Card card = cardDAOService.getCardbyUserId(user_id);
         if(card == null)
@@ -44,15 +51,15 @@ public class CardService
         }
         return added_tranzaction ? ErrorCodes.SUCCESS : ErrorCodes.TRANSACTION_FAILED;
     }
-    public void removeCardUser(Student user)
+    public void removeCardUser(int userID) throws SQLException
     {
-        Card card = getCardbyUser(user.getId_student());
+        Card card = getCardbyUser(userID);
         if(card != null)
         {
             cardDAOService.removeCard(card);
         }
     }
-    public void addCardtoUser(Student student, Scanner in)
+    public void addCardtoUser(Student student, Scanner in) throws SQLException
     {
         String tip = typeOfCard(in);
         while(tip == null)
@@ -85,20 +92,23 @@ public class CardService
         System.out.println("Introdu CVV-ul:");
         int cvv = in.nextInt();
 
-        Card card = new Card(student.getId_student(),numarCard, expirationDate, numeDetinator, cvv);
+        Card card = new Card(student.getId(),numarCard, expirationDate, numeDetinator, cvv);
+
         if(tip.equalsIgnoreCase(Constants.Debit))
         {
             //Deocamdata este o suma prestabilita pentru debit de 1000 de roni
-            DebitCard debitCard = new DebitCard(student.getId_student(),numarCard, expirationDate, numeDetinator,cvv,1000);
-            student.setCard(debitCard);
-            cardDAOService.addCard(debitCard);
+            DebitCard debitCard = new DebitCard(student.getId(),numarCard, expirationDate, numeDetinator,cvv,1000);
+            cardDAOService.addCard(debitCard,"debit");
+            student.setCard(debitCard.getCardID());
+            userDAOService.updateUser(student);
         }
         if(tip.equalsIgnoreCase(Constants.Credit))
         {
             //Deocamdata este o suma prestabilita pentru credit de 10000 de roni
-            CreditCard creditCard = new CreditCard(student.getId_student(),numarCard, expirationDate, numeDetinator,cvv,10000);
-            student.setCard(creditCard);
-            cardDAOService.addCard(creditCard);
+            CreditCard creditCard = new CreditCard(student.getId(),numarCard, expirationDate, numeDetinator,cvv,LIMITCARD);
+            cardDAOService.addCard(creditCard,"credit");
+            student.setCard(creditCard.getCardID());
+            userDAOService.updateUser(student);
         }
     }
     public boolean verifyTypeofCard(String typeOfCard)
@@ -123,7 +133,7 @@ public class CardService
         System.out.println("Nu exista acest tip");
         return null;
     }
-    public Card getCardbyUser(int id_user)
+    public Card getCardbyUser(int id_user) throws SQLException
     {
         Card card = cardDAOService.getCardbyUserId(id_user);
         if(card == null)

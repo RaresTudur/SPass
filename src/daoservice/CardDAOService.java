@@ -2,44 +2,49 @@ package daoservice;
 
 import dao.CardDAO;
 import model.Card;
+import model.CreditCard;
+import model.DebitCard;
+
+import java.sql.SQLException;
 
 public class CardDAOService
 {
     private CardDAO cardDAO;
-    public CardDAOService()
+    public CardDAOService() throws SQLException
     {
         this.cardDAO = CardDAO.getInstance();
     }
-    public Card getCardbyName(String nume_detinator)
+    public Card getCardbyUserId(int user_id) throws SQLException
     {
-        Card searched_card = this.cardDAO.read(nume_detinator);
-        if(searched_card != null)
+        DebitCard searched_card = this.cardDAO.readDebitCard(user_id);
+        if (searched_card == null)
         {
-            return searched_card;
+            return this.cardDAO.readCreditCard(user_id);
         }
-        return null;
+        return searched_card;
     }
-    public Card getCardbyUserId(int user_id)
+    public void addCard(Card card,String type) throws SQLException
     {
-        Card searched_card = this.cardDAO.read(user_id);
-        if(searched_card != null)
+        if(card instanceof DebitCard)
         {
-            return searched_card;
+            cardDAO.createDebitCard((DebitCard) card);
+        } else if (card instanceof CreditCard)
+        {
+            cardDAO.createCreditCard((CreditCard) card);
         }
-        return null;
     }
-    public void addCard(Card card)
+    public void removeCard(Card card) throws SQLException
     {
         if(card != null)
         {
-            cardDAO.create(card);
-        }
-    }
-    public void removeCard(Card card)
-    {
-        if(card != null)
-        {
-            cardDAO.remove(card);
+            if(card instanceof DebitCard)
+            {
+                cardDAO.deleteDebitCard(card.getCardID());
+            }
+            else
+            {
+                cardDAO.deleteCreditCard(card.getCardID());
+            }
             System.out.println("Cardul a fost eliminat cu success");
         }
         else

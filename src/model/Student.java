@@ -2,26 +2,31 @@ package model;
 
 public class Student extends User
 {
-    private static int num_of_ids = 0;
-    private int id_student;
     private int student_number;
     private String nume;
     private String prenume;
     private int grupa;
-    private String facultate;
-    private String universitate;
-    private Card card;
+    private int facultateid;
+    private int universitateid;
+    private int cardID;
 
-    public Student(int student_number, String nume, String prenume, int grupa, String email, String facultate, String var_password, String universitate)
+    private String nume_facultate;
+    private String nume_universitate;
+
+    public Student(int student_number, String nume, String prenume, int grupa, String email, int facultate, String var_password, int universitate)
     {
-        super(email,var_password);
-        this.id_student = ++num_of_ids;
+        super(email,var_password,"Student");
         this.student_number = student_number;
         this.nume = nume;
         this.prenume = prenume;
         this.grupa = grupa;
-        this.facultate = facultate;
-        this.universitate = universitate;
+        this.facultateid = facultate;
+        this.universitateid = universitate;
+    }
+
+    public Student()
+    {
+
     }
 
     public int getStudent_number()
@@ -34,30 +39,21 @@ public class Student extends User
         this.student_number = student_number;
     }
 
-    public String getUniversitate()
+    public int getUniversitateID()
     {
-        return universitate;
+        return universitateid;
     }
 
-    public void setUniversitate(String universitate)
+    public void setUniversitateID(int universitate)
     {
-        this.universitate = universitate;
+        this.universitateid = universitate;
     }
 
     public Student(User user)
     {
-        super(user.getEmail_address(),user.getPassword());
+        super(user.getEmail_address(),user.getPassword(),"Student");
     }
 
-    public int getId_student()
-    {
-        return id_student;
-    }
-
-    public void setId_student(int id_student)
-    {
-        this.id_student = id_student;
-    }
 
     public String getNume()
     {
@@ -99,14 +95,14 @@ public class Student extends User
         this.email_address = email_address;
     }
 
-    public String getFacultate()
+    public int getFacultateID()
     {
-        return facultate;
+        return facultateid;
     }
 
-    public void setFacultate(String facultate)
+    public void setFacultateID(int facultate)
     {
-        this.facultate = facultate;
+        this.facultateid = facultate;
     }
 
     public String getPassword()
@@ -114,14 +110,40 @@ public class Student extends User
         return password;
     }
 
-    public void setCard(Card card)
+    public int getCard()
     {
-        this.card = card;
+        return cardID;
+    }
+
+    public void setCard(int cardID)
+    {
+        this.cardID = cardID;
     }
 
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+
+    public String getNume_facultate()
+    {
+        return nume_facultate;
+    }
+
+    public void setNume_facultate(String nume_facultate)
+    {
+        this.nume_facultate = nume_facultate;
+    }
+
+    public String getNume_universitate()
+    {
+        return nume_universitate;
+    }
+
+    public void setNume_universitate(String nume_universitate)
+    {
+        this.nume_universitate = nume_universitate;
     }
 
     @Override
@@ -131,7 +153,7 @@ public class Student extends User
                 + "Nume: " +this.nume + "\n" + "Prenume: " + this.prenume + "\n"
                 + "Email: "+ this.email_address + "\n"
                 + "Grupa: "+  grupa + "\n"
-                + "Facultatea: " + facultate + "\n"
-                + "Universitate: " + this.universitate;
+                + "Facultatea: " + this.nume_facultate+ "\n"
+                + "Universitate: " + this.nume_universitate;
     }
 }

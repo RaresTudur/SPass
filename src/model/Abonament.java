@@ -6,21 +6,25 @@ public abstract class Abonament
 {
     private static int num_of_passes = 0;
     protected int id_abonament;
-    protected Student student;
+    protected int studentId;
     protected boolean plata_recurenta;
-    protected String nume_universitate;
-    protected String nume_facultate;
+    protected int id_universitate;
+    protected int id_facultate;
     protected LocalDate data_inceput;
     protected boolean expirat;
 
-    public Abonament(Student student, boolean plata_recurenta, String nume_universitate, String nume_facultate) {
+    public Abonament(int studentID, boolean plata_recurenta, int id_universitate, int id_facultate) {
         this.id_abonament = ++num_of_passes;
-        this.student = student;
+        this.studentId = studentID;
         this.plata_recurenta = plata_recurenta;
-        this.nume_universitate = nume_universitate;
-        this.nume_facultate = nume_facultate;
+        this.id_universitate =  id_universitate;
+        this.id_facultate = id_facultate;
         this.data_inceput = LocalDate.now();
         this.expirat = false;
+    }
+    public Abonament()
+    {
+
     }
 
     public static int getNum_of_passes()
@@ -43,39 +47,50 @@ public abstract class Abonament
         this.id_abonament = id_abonament;
     }
 
-    public Student getStudent()
-    {
-        return student;
-    }
-
-    public void setStudent(Student student)
-    {
-        this.student = student;
-    }
 
     public void setPlata_recurenta(boolean plata_recurenta)
     {
         this.plata_recurenta = plata_recurenta;
     }
 
-    public String getNume_universitate()
+    public int getId_universitate()
     {
-        return nume_universitate;
+        return id_universitate;
     }
 
-    public void setNume_universitate(String nume_universitate)
+    public void setId_universitate(int id_universitat)
     {
-        this.nume_universitate = nume_universitate;
+        this. id_universitate =  id_universitate;
     }
 
-    public String getNume_facultate()
+    public int getid_facultate()
     {
-        return nume_facultate;
+        return id_facultate;
     }
 
-    public void setNume_facultate(String nume_facultate)
+    public int getStudentId()
     {
-        this.nume_facultate = nume_facultate;
+        return studentId;
+    }
+
+    public void setStudentId(int studentId)
+    {
+        this.studentId = studentId;
+    }
+
+    public boolean isPlata_recurenta()
+    {
+        return plata_recurenta;
+    }
+
+    public int getId_facultate()
+    {
+        return id_facultate;
+    }
+
+    public void setId_facultate(int id_facultate)
+    {
+        this.id_facultate = id_facultate;
     }
 
     public LocalDate getData_inceput()
@@ -110,10 +125,10 @@ public abstract class Abonament
     public String toString() {
         return "Abonament{" +
                 "id_abonament=" + id_abonament +
-                ", student=" + student +
+                ", student=" + studentId +
                 ", plata_recurenta=" + plata_recurenta +
-                ", nume_universitate='" + nume_universitate + '\'' +
-                ", nume_facultate='" + nume_facultate + '\'' +
+                ",  id_universitate='" +  id_universitate + '\'' +
+                ", id_facultate='" + id_facultate + '\'' +
                 ", data_inceput=" + data_inceput +
                 ", expirat=" + expirat +
                 '}';

@@ -5,9 +5,14 @@ public class Abonament_Metrorex extends Abonament
 {
     private static final double METROREX_PRICE_PER_MONTH = 8.0;
 
-    public Abonament_Metrorex(Student student, boolean plata_recurenta, String nume_universitate, String nume_facultate)
+    public Abonament_Metrorex(int student, boolean plata_recurenta, int id_universitate, int id_facultate)
     {
-        super(student, plata_recurenta, nume_universitate, nume_facultate);
+        super(student, plata_recurenta, id_universitate, id_facultate);
+    }
+
+    public Abonament_Metrorex()
+    {
+        super();
     }
 
     @Override
@@ -17,7 +22,7 @@ public class Abonament_Metrorex extends Abonament
 
     @Override
     public String toString() {
-        return "Abonament Metrorex \n" + student.toString() +
+        return "Abonament Metrorex \n" +
                 "Plata recurenta: " + isPlataRecurenta() + "\n" +
                 "Data inceput: " + data_inceput + "\n" +
                 "Expirat: " + isExpirat();

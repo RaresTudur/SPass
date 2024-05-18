@@ -9,6 +9,7 @@ import model.Student;
 import utils.Constants;
 import utils.ErrorCodes;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -20,13 +21,13 @@ public class PayService
     private PassService passService;
     private PaymentDAOService paymentDAOService;
     private CardService cardService;
-    public PayService()
+    public PayService() throws SQLException
     {
         this.passService = new PassService();
         this.paymentDAOService = new PaymentDAOService();
         this.cardService = new CardService();
     }
-    public int makePayment(Student student, Scanner in)
+    public int makePayment(Student student, Scanner in) throws SQLException
     {
         String typeofPass = passService.getTypeofPass(in);
         if(passService.checkExistingPass(student,typeofPass))
@@ -34,14 +35,14 @@ public class PayService
             return ErrorCodes.EXISTING_PASS;
         }
         boolean typeOfPayment = typeofPayment(in);
-        int id_student = student.getId_student();
+        int id_student = student.getId();
         double suma = passService.getValue(typeofPass);
-        if(cardService.getCardbyUser(student.getId_student()) == null)
+        if(cardService.getCardbyUser(student.getId()) == null)
         {
             System.out.println("Nu ai niciun card adaugat in aplicaitie");
             cardService.addCardtoUser(student,in);
         }
-        int transactionResult = cardService.addTranzaction(student.getId_student(),suma);
+        int transactionResult = cardService.addTranzaction(student.getId(),suma);
         if(transactionResult == ErrorCodes.SUCCESS)
         {
             switch(typeofPass.toLowerCase())
@@ -74,32 +75,32 @@ public class PayService
         }
         return typeofPay;
     }
-    public int payPass(Student student, Scanner in)
+    public int payPass(Student student, Scanner in) throws SQLException
     {
-        Abonament abonament = passService.getExpiredAbonament(student.getId_student(),in);
+        Abonament abonament = passService.getExpiredAbonament(student.getId(),in);
         if(abonament == null)
         {
             return ErrorCodes.NO_EXPIRED_PASS;
         }
         String typeofPass = passService.getTypeofPass(abonament);
         double value = passService.getValue(typeofPass);
-        if(cardService.getCardbyUser(student.getId_student()) == null)
+        if(cardService.getCardbyUser(student.getId()) == null)
         {
             System.out.println("Nu ai niciun card adaugat in aplicatie");
             changePaymentOption(student,in);
         }
-        if(cardService.addTranzaction(student.getId_student(),value) == ErrorCodes.TRANSACTION_FAILED)
+        if(cardService.addTranzaction(student.getId(),value) == ErrorCodes.TRANSACTION_FAILED)
         {
             return ErrorCodes.TRANSACTION_FAILED;
         }
-        Plata pay = new Plata(student.getId_student(),abonament.getId_abonament(),typeofPass, value);
+        Plata pay = new Plata(student.getId(),abonament.getId_abonament(),typeofPass, value);
         paymentDAOService.addPay(pay);
         passService.updatePass(abonament);
         return ErrorCodes.SUCCESS;
     }
-    public void changePaymentOption(Student user,Scanner in)
+    public void changePaymentOption(Student user,Scanner in) throws SQLException
     {
-        cardService.removeCardUser(user);
+        cardService.removeCardUser(user.getId());
         cardService.addCardtoUser(user,in);
         System.out.println("Cardul a fost schimbat");
     }

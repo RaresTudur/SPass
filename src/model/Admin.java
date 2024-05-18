@@ -6,17 +6,28 @@ public class Admin extends User
 {
     private String adminRole;
     private String nume;
-    public Admin(String email, String password, String adminRole,String nume)
+    public Admin(int id,String email, String password, String adminRole,String nume)
     {
-        super(email,password);
+        super(email,password,"Admin");
+        this.setId(id);
         this.adminRole = adminRole;
         this.nume = nume;
     }
     public Admin(User user)
     {
-        super(user.getEmail_address(), user.getPassword());
+        super(user.getEmail_address(), user.getPassword(),"Admin");
         adminRole = Constants.AdminRole;
     }
+    public Admin()
+    {
+    }
+    public Admin(int id,String adminRole, String nume)
+    {
+        this.setId(id);
+        this.adminRole = adminRole;
+        this.nume = nume;
+    }
+
     public String getNume()
     {
         return nume;
@@ -42,7 +53,6 @@ public class Admin extends User
     {
         return "Admin cu rolul :" + adminRole + '\n' +
                 "Nume: " + nume + '\n' +
-                "Email Address:" + email_address + '\n' +
-                "Password: " + password +  '\n';
+                "Email Address:" + email_address + '\n';
     }
 }

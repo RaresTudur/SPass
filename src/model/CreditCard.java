@@ -2,6 +2,8 @@ package model;
 
 import java.time.LocalDate;
 
+import static utils.Constants.LIMITCARD;
+
 public class CreditCard extends Card {
     private double limitaCredit;
     private double datorieCurenta;
@@ -10,6 +12,16 @@ public class CreditCard extends Card {
         super(user_id,numarCard, dataExpirare,nume,CVV);
         this.limitaCredit = limitaCredit;
         this.datorieCurenta = 0.0;
+    }
+
+    public CreditCard(Card card)
+    {
+        super(card);
+        this.limitaCredit = LIMITCARD * 10;
+    }
+    public CreditCard()
+    {
+
     }
 
     public double getLimitaCredit() {
