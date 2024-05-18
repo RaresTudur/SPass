@@ -67,7 +67,8 @@
       - `FacultyDAO`: Clasa care gestioneaza operatiile CRUD pentru facultati.
       - `CardDAO`: Clasa care gestioneaza operatiile CRUD pentru carduri.
       - `PlataDAO`: Clasa care gestioneaza operatiile CRUD pentru plati.
-
+      - `AdminDAO`: Clasa care gestioneaza operatiile CRUD pentru admini.
+      - `StudentDAO`: Clasa care gestioneaza operatiile CRUD pentru studenti.
    - `Service`: Pachetul care contine clasele de servicii.
       - `AdminService`: Clasa pentru gestionarea operatiunilor administratorilor. 
       - `AuthenticationService`: Clasa pentru autentificarea utilizatorilor.
@@ -77,4 +78,4 @@
       - `UserService`: Clasa pentru operatiile legate de utilizatori.
       - `UniversityService`: Clasa pentru operatiile legate de universitati si facultati
       - `menu`: Pachetul care contine clasele pentru meniul aplicatiei.
-         - `UserMenu`: Clasa pentru meniul administratorului si a studentului
+      - `UserMenu`: Clasa pentru meniul administratorului si a studentului
