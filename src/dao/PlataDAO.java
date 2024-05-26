@@ -15,7 +15,7 @@ public class PlataDAO {
     private final Connection connection = DatabaseConnection.getConnection();
     private static PlataDAO instance;
 
-    public PlataDAO() throws SQLException {
+    private PlataDAO() throws SQLException {
     }
     public static PlataDAO getInstance() throws SQLException
     {
